@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HONGYU HEAVY EQUIPMENT LTD - Delivery Challan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset and Basic Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f0f2f5;
+            padding: 15px;
+            line-height: 1.4;
+        }
+        
+        /* Header */
+        .header {
+            background: #1a237e;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        /* Form Section */
+        .form-section {
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .form-section h2 {
+            color: #1a237e;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 18px;
+        }
+        
+        /* Form Grid */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 12px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            height: 38px;
+        }
+        
+        textarea.form-control {
+            height: auto;
+            min-height: 70px;
+            resize: vertical;
+        }
+        
+        select.form-control {
+            height: 38px;
+        }
+        
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+        }
+        
+        .btn-primary {
+            background: #1a237e;
+            color: white;
+        }
+        
+        .btn-success {
+            background: #2e7d32;
+            color: white;
+        }
+        
+        .btn-print {
+            background: #c62828;
+            color: white;
+        }
+        
+        .btn-download {
+            background: #0277bd;
+            color: white;
+        }
+        
+        /* Challan Preview */
+        .challan-preview {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        /* A4 Container */
+        .a4-container {
+            width: 210mm;
+            min-height: 297mm;
+            background: white;
+            margin: 15px auto;
+            position: relative;
+            border: 1px solid #ccc;
+        }
+        
+        /* Two Challans on One A4 */
+        .challan-pair {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .challan-single {
+            height: 148.5mm;
+            padding: 12mm;
+            border-bottom: 2px dashed #999;
+            position: relative;
+            page-break-inside: avoid;
+        }
+        
+        .challan-single:last-child {
+            border-bottom: none;
+        }
+        
+        /* Challan Content */
+        .company-header {
+            text-align: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #000;
+        }
+        
+        .company-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+        
+        .company-address {
+            font-size: 13px;
+            color: #000;
+            margin-bottom: 3px;
+            line-height: 1.2;
+        }
+        
+        .challan-title {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin: 15px 0;
+            color: #000;
+            text-transform: uppercase;
+        }
+        
+        /* Customer info section */
+        .customer-info {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        
+        .customer-details {
+            width: 60%;
+        }
+        
+        .challan-details {
+            width: 35%;
+        }
+        
+        /* Info line */
+        .info-line {
+            margin-bottom: 8px;
+            display: flex;
+            min-height: 20px;
+        }
+        
+        .info-label {
+            font-weight: bold;
+            width: 120px;
+            color: #000;
+            text-align: left;
+            font-size: 14px;
+        }
+        
+        .info-value {
+            flex: 1;
+            color: #000;
+            border-bottom: 1px dotted #000;
+            padding-bottom: 3px;
+            min-height: 20px;
+            word-break: break-word;
+            text-align: left;
+            font-size: 14px;
+            padding-left: 5px;
+        }
+        
+        /* Right aligned section */
+        .challan-details .info-line {
+            justify-content: flex-end;
+        }
+        
+        .challan-details .info-label {
+            width: 80px;
+            text-align: right;
+            padding-right: 10px;
+        }
+        
+        .challan-details .info-value {
+            width: 140px;
+            text-align: left;
+            padding-left: 5px;
+        }
+        
+        /* Table Styles */
+        .challan-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border: 2px solid #000;
+            font-size: 14px;
+        }
+        
+        .challan-table th {
+            background: #f0f0f0;
+            padding: 10px;
+            border: 1px solid #000;
+            text-align: center;
+            font-weight: bold;
+            color: #000;
+            font-size: 14px;
+        }
+        
+        .challan-table td {
+            padding: 10px;
+            border: 1px solid #000;
+            text-align: center;
+            height: 50px;
+            vertical-align: middle;
+            color: #000;
+            word-break: break-word;
+            font-size: 14px;
+        }
+        
+        /* Column widths */
+        .challan-table th:nth-child(1),
+        .challan-table td:nth-child(1) {
+            width: 20%;
+        }
+        
+        .challan-table th:nth-child(2),
+        .challan-table td:nth-child(2) {
+            width: 35%;
+        }
+        
+        .challan-table th:nth-child(3),
+        .challan-table td:nth-child(3) {
+            width: 25%;
+        }
+        
+        .challan-table th:nth-child(4),
+        .challan-table td:nth-child(4) {
+            width: 20%;
+        }
+        
+        /* Description box */
+        .description-box {
+            border: 1px solid #000;
+            padding: 12px;
+            margin: 15px 0;
+            min-height: 70px;
+            font-size: 14px;
+        }
+        
+        .description-box strong {
+            color: #000;
+            font-size: 14px;
+        }
+        
+        .description-content {
+            color: #000;
+            line-height: 1.4;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+        
+        /* Signature Section */
+        .signature-section {
+            margin-top: 25px;
+        }
+        
+        .signature-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+        
+        .signature-box {
+            text-align: center;
+            width: 160px;
+        }
+        
+        .signature-line {
+            border-top: 1px solid #000;
+            width: 100%;
+            margin: 0 auto;
+            margin-bottom: 8px;
+        }
+        
+        .signature-label {
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #000;
+        }
+        
+        .signature-name {
+            margin-top: 5px;
+            font-size: 14px;
+            color: #000;
+            min-height: 20px;
+        }
+        
+        /* Copy Label */
+        .copy-label {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background: #000;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 3px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        
+        /* PRINT STYLES - FIXED */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 12mm;
+            }
+            
+            body {
+                margin: 0 !important;
+                padding: 0 !important;
+                background: white !important;
+                width: 210mm;
+                height: 297mm;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            .no-print {
+                display: none !important;
+            }
+            
+            .container {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            
+            .challan-preview {
+                padding: 0 !important;
+                margin: 0 !important;
+                background: transparent !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+            }
+            
+            .a4-container {
+                width: 186mm !important;
+                height: 273mm !important;
+                min-height: 273mm !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                border: none !important;
+                box-shadow: none !important;
+                background: white !important;
+                position: relative !important;
+                page-break-after: always !important;
+            }
+            
+            .challan-pair {
+                display: block !important;
+                height: 273mm !important;
+            }
+            
+            .challan-single {
+                height: 136.5mm !important;
+                padding: 10mm 12mm !important;
+                margin: 0 !important;
+                border-bottom: 2px dashed #999 !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                overflow: hidden !important;
+                position: relative !important;
+            }
+            
+            .challan-single:last-child {
+                border-bottom: none !important;
+            }
+            
+            /* Black and white printing */
+            * {
+                color: black !important;
+                background: white !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            /* Ensure borders are visible */
+            .challan-table,
+            .challan-table th,
+            .challan-table td {
+                border: 1px solid black !important;
+            }
+            
+            .challan-table {
+                border: 2px solid black !important;
+            }
+            
+            .description-box {
+                border: 1px solid black !important;
+            }
+            
+            .signature-line {
+                border-top: 1px solid black !important;
+            }
+            
+            .company-header {
+                border-bottom: 2px solid black !important;
+            }
+            
+            .info-value {
+                border-bottom: 1px dotted black !important;
+            }
+            
+            /* Fix layout for print */
+            .customer-info {
+                display: flex !important;
+                justify-content: space-between !important;
+                margin: 15px 0 !important;
+            }
+            
+            .customer-details {
+                width: 60% !important;
+            }
+            
+            .challan-details {
+                width: 35% !important;
+            }
+            
+            /* Fix right alignment */
+            .challan-details .info-line {
+                display: flex !important;
+                justify-content: flex-end !important;
+            }
+            
+            .challan-details .info-label {
+                width: 80px !important;
+                text-align: right !important;
+                padding-right: 10px !important;
+            }
+            
+            .challan-details .info-value {
+                width: 140px !important;
+                text-align: left !important;
+                padding-left: 5px !important;
+            }
+        }
+        
+        /* Instructions */
+        .instructions {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border-left: 4px solid #1a237e;
+            font-size: 13px;
+        }
+        
+        .instructions h4 {
+            color: #1a237e;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+        
+        .instructions ol {
+            padding-left: 20px;
+            margin: 8px 0;
+        }
+        
+        .instructions li {
+            margin-bottom: 5px;
+        }
+        
+        /* Apps Script Configuration */
+        .config-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        
+        .config-section h4 {
+            color: #1a237e;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+        
+        .config-section small {
+            color: #666;
+            font-size: 11px;
+        }
+        
+        /* Loading Overlay */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .loading-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #1a237e;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            
+            .a4-container {
+                width: 100%;
+                transform: scale(0.85);
+                transform-origin: top center;
+                margin: 10px auto;
+            }
+            
+            .btn {
+                padding: 8px 15px;
+                font-size: 13px;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+                margin-bottom: 5px;
+            }
+            
+            .customer-info {
+                flex-direction: column;
+            }
+            
+            .customer-details,
+            .challan-details {
+                width: 100% !important;
+            }
+            
+            .challan-details .info-line {
+                justify-content: flex-start !important;
+            }
+            
+            .challan-details .info-label {
+                text-align: left !important;
+                padding-right: 0 !important;
+            }
+            
+            .challan-table th,
+            .challan-table td {
+                font-size: 12px;
+                padding: 8px;
+            }
+        }
+        
+        /* View Data Button */
+        .view-data-btn {
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        .view-data-btn button {
+            background: #6a1b9a;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        
+        /* Status Messages */
+        .status-message {
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .status-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>Saving to Google Sheets...</p>
+        </div>
+    </div>
+
+    <div class="header">
+        <h1>HONGYU HEAVY EQUIPMENT LTD</h1>
+        <p>Delivery Challan System</p>
+    </div>
+
+    <div class="container">
+        <div class="form-section no-print">
+            <h2><i class="fas fa-edit"></i> Delivery Challan Information</h2>
+            
+            <div class="status-message" id="statusMessage"></div>
+            
+            <form id="challanForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="customerName">Customer Name *</label>
+                        <input type="text" id="customerName" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="challanDate">Date *</label>
+                        <input type="date" id="challanDate" class="form-control" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="customerAddress">Address *</label>
+                    <textarea id="customerAddress" class="form-control" rows="2" required></textarea>
+                </div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="customerMobile">Mobile No *</label>
+                        <input type="text" id="customerMobile" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="amount">Amount (৳) *</label>
+                        <input type="number" id="amount" class="form-control" required min="0">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="deliveryAddress">Delivery Address *</label>
+                    <textarea id="deliveryAddress" class="form-control" rows="2" required></textarea>
+                </div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="courier">Courier Service *</label>
+                        <select id="courier" class="form-control" required>
+                            <option value="">Select Courier</option>
+                            <option value="Sundarban">Sundarban</option>
+                            <option value="SA Paribahan">SA Paribahan</option>
+                            <option value="AJR">AJR</option>
+                            <option value="Pathao">Pathao</option>
+                            <option value="Karatoa">Karatoa</option>
+                            <option value="SteadFast">SteadFast</option>
+                            <option value="Saodagor">Saodagor</option>
+							<option value="Janani">Janani</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="conditionCharge">Condition + Charge</label>
+                        <select id="conditionCharge" class="form-control">
+                            <option value="YES">YES</option>
+                            <option value="NO">NO</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" id="description" class="form-control" value="One Carton Seal">
+                </div>
+                
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" id="updatePreviewBtn">
+                        <i class="fas fa-eye"></i> Update Preview
+                    </button>
+                    <button type="submit" class="btn btn-success" id="saveBtn">
+                        <i class="fas fa-save"></i> Save to Google Sheets
+                    </button>
+                    <button type="button" class="btn" id="resetBtn" style="background: #616161; color: white;">
+                        <i class="fas fa-redo"></i> Reset Form
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="challan-preview no-print">
+            <h2><i class="fas fa-file-invoice"></i> Delivery Challan Preview</h2>
+            <p style="text-align: center; color: #666; margin-bottom: 15px; font-size: 13px;">
+                Two copies on one A4 page (Upper: Office Copy, Lower: Customer Copy)
+            </p>
+            
+            <!-- A4 Container with 2 Challans -->
+            <div class="a4-container">
+                <div class="challan-pair" id="challanPair">
+                    <!-- Office Copy (Upper Part) -->
+                    <div class="challan-single" id="officeCopy">
+                        <div class="copy-label">OFFICE COPY</div>
+                        
+                        <div class="company-header">
+                            <div class="company-name">HONGYU HEAVY EQUIPMENT LTD</div>
+                            <div class="company-address">Address: Ashulia, Savar, Dhaka-1341</div>
+                            <div class="company-address">Contact: 01864-910852 / 01864-911127</div>
+                        </div>
+                        
+                        <div class="challan-title">DELIVERY CHALLAN</div>
+                        
+                        <div class="customer-info">
+                            <div class="customer-details">
+                                <div class="info-line">
+                                    <span class="info-label">Customer Name:</span>
+                                    <span class="info-value" id="previewCustomerName">[Customer Name]</span>
+                                </div>
+                                <div class="info-line">
+                                    <span class="info-label">Address:</span>
+                                    <span class="info-value" id="previewCustomerAddress">[Address]</span>
+                                </div>
+                            </div>
+                            
+                            <div class="challan-details">
+                                <div class="info-line">
+                                    <span class="info-label">Date:</span>
+                                    <span class="info-value" id="previewDate">[Date]</span>
+                                </div>
+                                <div class="info-line">
+                                    <span class="info-label">Mobile No:</span>
+                                    <span class="info-value" id="previewMobile">[Mobile No]</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <table class="challan-table">
+                            <thead>
+                                <tr>
+                                    <th>Amount (৳)</th>
+                                    <th>Delivery Address</th>
+                                    <th>Courier</th>
+                                    <th>Condition + Charge</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td id="previewAmount">[Amount]</td>
+                                    <td id="previewDeliveryAddress">[Delivery Address]</td>
+                                    <td id="previewCourier">[Courier]</td>
+                                    <td id="previewCondition">YES</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div class="description-box">
+                            <strong>Descriptions:</strong>
+                            <div class="description-content" id="previewDescription">One Carton Seal</div>
+                        </div>
+                        
+                        <div class="signature-section">
+                            <div class="signature-row">
+                                <div class="signature-box">
+                                    <div class="signature-line"></div>
+                                    <div class="signature-label">Reported By</div>
+                                    <div class="signature-name"></div>
+                                </div>
+                                <div class="signature-box">
+                                    <div class="signature-line"></div>
+                                    <div class="signature-label">Seller By</div>
+                                    <div class="signature-name"></div>
+                                </div>
+                                <div class="signature-box">
+                                    <div class="signature-line"></div>
+                                    <div class="signature-label">Authorized By</div>
+                                    <div class="signature-name"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Customer Copy (Lower Part) -->
+                    <div class="challan-single" id="customerCopy">
+                        <div class="copy-label">CUSTOMER COPY</div>
+                        
+                        <div class="company-header">
+                            <div class="company-name">HONGYU HEAVY EQUIPMENT LTD</div>
+                            <div class="company-address">Address: Ashulia, Savar, Dhaka-1341</div>
+                            <div class="company-address">Contact: 01864-910852 / 01864-911127</div>
+                        </div>
+                        
+                        <div class="challan-title">DELIVERY CHALLAN</div>
+                        
+                        <div class="customer-info">
+                            <div class="customer-details">
+                                <div class="info-line">
+                                    <span class="info-label">Customer Name:</span>
+                                    <span class="info-value" id="previewCustomerName2">[Customer Name]</span>
+                                </div>
+                                <div class="info-line">
+                                    <span class="info-label">Address:</span>
+                                    <span class="info-value" id="previewCustomerAddress2">[Address]</span>
+                                </div>
+                            </div>
+                            
+                            <div class="challan-details">
+                                <div class="info-line">
+                                    <span class="info-label">Date:</span>
+                                    <span class="info-value" id="previewDate2">[Date]</span>
+                                </div>
+                                <div class="info-line">
+                                    <span class="info-label">Mobile No:</span>
+                                    <span class="info-value" id="previewMobile2">[Mobile No]</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <table class="challan-table">
+                            <thead>
+                                <tr>
+                                    <th>Amount (৳)</th>
+                                    <th>Delivery Address</th>
+                                    <th>Courier</th>
+                                    <th>Condition + Charge</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td id="previewAmount2">[Amount]</td>
+                                    <td id="previewDeliveryAddress2">[Delivery Address]</td>
+                                    <td id="previewCourier2">[Courier]</td>
+                                    <td id="previewCondition2">YES</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div class="description-box">
+                            <strong>Descriptions:</strong>
+                            <div class="description-content" id="previewDescription2">One Carton Seal</div>
+                        </div>
+                        
+                        <div class="signature-section">
+                            <div class="signature-row">
+                                <div class="signature-box">
+                                    <div class="signature-line"></div>
+                                    <div class="signature-label">Reported By</div>
+                                    <div class="signature-name"></div>
+                                </div>
+                                <div class="signature-box">
+                                    <div class="signature-line"></div>
+                                    <div class="signature-label">Seller By</div>
+                                    <div class="signature-name"></div>
+                                </div>
+                                <div class="signature-box">
+                                    <div class="signature-line"></div>
+                                    <div class="signature-label">Authorized By</div>
+                                    <div class="signature-name"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="btn-group">
+                <button type="button" class="btn btn-print" id="printBtn">
+                    <i class="fas fa-print"></i> Print Challan (2 Copies)
+                </button>
+                <button type="button" class="btn btn-download" id="downloadPdfBtn">
+                    <i class="fas fa-file-pdf"></i> Download as PDF
+                </button>
+                <button type="button" class="btn" id="newChallanBtn" style="background: #ff8f00; color: white;">
+                    <i class="fas fa-plus"></i> New Challan
+                </button>
+            </div>
+        </div>
+        
+        <div class="instructions no-print">
+            <h4><i class="fas fa-info-circle"></i> Instructions</h4>
+            <ol>
+                <li>Fill in all the required fields marked with *</li>
+                <li>Click "Update Preview" to see the challan preview</li>
+                <li>Click "Save to Google Sheets" to save the data</li>
+                <li>Click "Print Challan" to print two copies on one A4 page</li>
+                <li>Use "Download as PDF" to save a digital copy</li>
+                <li>You can enter text in Bengali - the system supports it</li>
+            </ol>
+        </div>
+        
+       
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+    // Google Apps Script Web App URL
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxsKkNi9MdWGjkNeKF1Hi2IK7mSBIzGYANLF4LGWrtZsrUW07MYOxSEB-cHzzSPo-Vp/exec';
+    
+    // Challan counter
+    let challanCounter = localStorage.getItem('challanCounter') ? parseInt(localStorage.getItem('challanCounter')) : 1;
+    
+    // Initialize the app
+    document.addEventListener('DOMContentLoaded', function() {
+        // Set today's date as default
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('challanDate').value = today;
+        
+        // Set up event listeners
+        document.getElementById('updatePreviewBtn').addEventListener('click', updatePreview);
+        document.getElementById('challanForm').addEventListener('submit', saveToGoogleSheets);
+        document.getElementById('resetBtn').addEventListener('click', resetForm);
+        document.getElementById('printBtn').addEventListener('click', printChallan);
+        document.getElementById('downloadPdfBtn').addEventListener('click', downloadAsPDF);
+        document.getElementById('newChallanBtn').addEventListener('click', newChallan);
+        
+        // Initial preview update
+        updatePreview();
+        
+        // Setup Bengali support
+        setupBengaliSupport();
+    });
+    
+    // Update the preview section with form data
+    function updatePreview() {
+        // Get form values
+        const customerName = document.getElementById('customerName').value || '[Customer Name]';
+        const challanDate = document.getElementById('challanDate').value || '[Date]';
+        const customerAddress = document.getElementById('customerAddress').value || '[Address]';
+        const customerMobile = document.getElementById('customerMobile').value || '[Mobile No]';
+        const amount = document.getElementById('amount').value || '[Amount]';
+        const deliveryAddress = document.getElementById('deliveryAddress').value || '[Delivery Address]';
+        const courier = document.getElementById('courier').value || '[Courier]';
+        const conditionCharge = document.getElementById('conditionCharge').value || 'YES';
+        const description = document.getElementById('description').value || 'One Carton Seal';
+        
+        // Format date if it's a valid date
+        const formatDate = (dateStr) => {
+            if (!dateStr || dateStr.startsWith('[')) return dateStr;
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-GB'); // DD/MM/YYYY format
+        };
+        
+        // Format amount with Bangladeshi Taka symbol
+        const formatAmount = (amt) => {
+            if (!amt || amt.startsWith('[')) return amt;
+            return '৳ ' + parseInt(amt).toLocaleString('en-BD');
+        };
+        
+        // Update Office Copy (Upper Part)
+        document.getElementById('previewCustomerName').textContent = customerName;
+        document.getElementById('previewDate').textContent = formatDate(challanDate);
+        document.getElementById('previewCustomerAddress').textContent = customerAddress;
+        document.getElementById('previewMobile').textContent = customerMobile;
+        document.getElementById('previewAmount').textContent = formatAmount(amount);
+        document.getElementById('previewDeliveryAddress').textContent = deliveryAddress;
+        document.getElementById('previewCourier').textContent = courier;
+        document.getElementById('previewCondition').textContent = conditionCharge;
+        document.getElementById('previewDescription').textContent = description;
+        
+        // Update Customer Copy (Lower Part)
+        document.getElementById('previewCustomerName2').textContent = customerName;
+        document.getElementById('previewDate2').textContent = formatDate(challanDate);
+        document.getElementById('previewCustomerAddress2').textContent = customerAddress;
+        document.getElementById('previewMobile2').textContent = customerMobile;
+        document.getElementById('previewAmount2').textContent = formatAmount(amount);
+        document.getElementById('previewDeliveryAddress2').textContent = deliveryAddress;
+        document.getElementById('previewCourier2').textContent = courier;
+        document.getElementById('previewCondition2').textContent = conditionCharge;
+        document.getElementById('previewDescription2').textContent = description;
+        
+        showStatus('Preview updated successfully!', 'success');
+    }
+    
+    // Save data to Google Sheets - SIMPLE WORKING VERSION
+    async function saveToGoogleSheets(e) {
+        e.preventDefault();
+        
+        // Validate form
+        if (!validateForm()) {
+            showStatus('Please fill in all required fields marked with *', 'error');
+            return;
+        }
+        
+        // Generate challan number
+        const challanNumber = generateChallanNumber();
+        
+        // Get form data
+        const formData = {
+            challanNumber: challanNumber,
+            customerName: document.getElementById('customerName').value.trim(),
+            challanDate: document.getElementById('challanDate').value,
+            customerAddress: document.getElementById('customerAddress').value.trim(),
+            customerMobile: document.getElementById('customerMobile').value.trim(),
+            amount: document.getElementById('amount').value,
+            deliveryAddress: document.getElementById('deliveryAddress').value.trim(),
+            courier: document.getElementById('courier').value,
+            conditionCharge: document.getElementById('conditionCharge').value,
+            description: document.getElementById('description').value.trim() || 'One Carton Seal'
+        };
+        
+        console.log("Form Data:", formData);
+        
+        // Show loading
+        showLoading(true);
+        
+        // Method 1: Direct form submission (most reliable for Google Apps Script)
+        submitUsingForm(formData, challanNumber);
+    }
+    
+    // Method 1: Submit using form (works best with Google Apps Script)
+    function submitUsingForm(formData, challanNumber) {
+        // Create a hidden form
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = GOOGLE_SCRIPT_URL;
+        form.style.display = 'none';
+        
+        // Add all data as hidden inputs
+        for (const key in formData) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = formData[key];
+            form.appendChild(input);
+        }
+        
+        // Create an iframe to handle response
+        const iframe = document.createElement('iframe');
+        iframe.name = 'responseFrame';
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+        
+        form.target = 'responseFrame';
+        
+        // Add iframe load event listener
+        iframe.onload = function() {
+            showLoading(false);
+            
+            try {
+                // Get response from iframe
+                const responseText = iframe.contentDocument.body.textContent;
+                console.log("Response from server:", responseText);
+                
+                let result;
+                try {
+                    result = JSON.parse(responseText);
+                } catch {
+                    result = { success: true, message: "Data saved (response not JSON)" };
+                }
+                
+                if (result.success) {
+                    // Increment challan counter
+                    challanCounter++;
+                    localStorage.setItem('challanCounter', challanCounter);
+                    
+                    showStatus(`✅ Delivery Challan saved successfully! Challan No: ${challanNumber}`, 'success');
+                    
+                    // Clear form
+                    setTimeout(() => {
+                        document.getElementById('challanForm').reset();
+                        document.getElementById('challanDate').value = new Date().toISOString().split('T')[0];
+                        document.getElementById('description').value = 'One Carton Seal';
+                        document.getElementById('conditionCharge').value = 'YES';
+                        updatePreview();
+                    }, 1500);
+                    
+                } else {
+                    showStatus(`❌ ${result.message || 'Error saving data'}`, 'error');
+                }
+                
+            } catch (error) {
+                console.error("Error reading response:", error);
+                // Still increment counter (assume success)
+                challanCounter++;
+                localStorage.setItem('challanCounter', challanCounter);
+                showStatus(`⚠️ Challan No: ${challanNumber} sent. Please verify in Google Sheet.`, 'info');
+            }
+            
+            // Clean up
+            document.body.removeChild(iframe);
+            document.body.removeChild(form);
+        };
+        
+        // Add form to body and submit
+        document.body.appendChild(form);
+        form.submit();
+    }
+    
+    // Generate challan number
+    function generateChallanNumber() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const counter = String(challanCounter).padStart(4, '0');
+        
+        return `HONGYU-DC-${year}${month}${day}-${counter}`;
+    }
+    
+    // Validate form
+    function validateForm() {
+        const requiredFields = [
+            'customerName',
+            'challanDate',
+            'customerAddress',
+            'customerMobile',
+            'amount',
+            'deliveryAddress',
+            'courier'
+        ];
+        
+        for (const fieldId of requiredFields) {
+            const field = document.getElementById(fieldId);
+            if (!field.value.trim()) {
+                field.focus();
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    // Reset form
+    function resetForm() {
+        if (confirm('Are you sure you want to reset the form? All data will be lost.')) {
+            document.getElementById('challanForm').reset();
+            
+            // Reset date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('challanDate').value = today;
+            
+            // Reset description to default
+            document.getElementById('description').value = 'One Carton Seal';
+            
+            // Reset condition charge to YES
+            document.getElementById('conditionCharge').value = 'YES';
+            
+            // Update preview
+            updatePreview();
+            
+            showStatus('Form has been reset.', 'success');
+        }
+    }
+    
+    // Print challan (2 copies in one page)
+    function printChallan() {
+        // Hide the print button during print
+        const originalDisplay = document.getElementById('printBtn').style.display;
+        document.getElementById('printBtn').style.display = 'none';
+        
+        // Trigger print
+        window.print();
+        
+        // Restore the button after a short delay
+        setTimeout(() => {
+            document.getElementById('printBtn').style.display = originalDisplay;
+        }, 500);
+    }
+    
+    // Download as PDF
+    async function downloadAsPDF() {
+        showLoading(true);
+        
+        try {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            
+            // Capture the entire A4 container
+            const a4Container = document.querySelector('.a4-container');
+            const canvas = await html2canvas(a4Container, {
+                scale: 2,
+                useCORS: true,
+                logging: false,
+                backgroundColor: '#ffffff'
+            });
+            
+            const imgData = canvas.toDataURL('image/png');
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = pdf.internal.pageSize.getHeight();
+            
+            // Calculate dimensions to fit the A4 container in the PDF
+            const imgWidth = pdfWidth - 20;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+            
+            // Add image to PDF
+            pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+            
+            // Download the PDF
+            pdf.save(`delivery-challan-${generateChallanNumber()}.pdf`);
+            
+            showStatus('PDF downloaded successfully!', 'success');
+        } catch (error) {
+            console.error('Error generating PDF:', error);
+            showStatus('Error generating PDF. Please try again.', 'error');
+        } finally {
+            showLoading(false);
+        }
+    }
+    
+    // Create new challan
+    function newChallan() {
+        if (confirm('Create a new delivery challan? The current form will be reset.')) {
+            // Increment challan counter
+            challanCounter++;
+            localStorage.setItem('challanCounter', challanCounter);
+            
+            // Reset form
+            resetForm();
+            
+            showStatus('New delivery challan created. Please fill in the details.', 'success');
+        }
+    }
+    
+    // Show/hide loading overlay
+    function showLoading(show) {
+        document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none';
+    }
+    
+    // Show status message
+    function showStatus(message, type) {
+        const statusDiv = document.getElementById('statusMessage');
+        statusDiv.textContent = message;
+        statusDiv.className = `status-message status-${type}`;
+        statusDiv.style.display = 'block';
+        
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+            statusDiv.style.display = 'none';
+        }, 5000);
+    }
+    
+    // Support for Bengali language input
+    function setupBengaliSupport() {
+        // Add Bengali font support
+        const style = document.createElement('style');
+        style.textContent = `
+            @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap');
+            body, input, textarea, select {
+                font-family: 'Noto Sans Bengali', Arial, sans-serif;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+        
+        // Initialize Bengali support
+        setupBengaliSupport();
+    </script>
+</body>
+</html>
