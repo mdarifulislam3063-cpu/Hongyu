@@ -399,6 +399,16 @@
             font-weight: bold;
         }
         
+        /* Challan Number Display */
+        .challan-number-display {
+            position: absolute;
+            top: 10px;
+            left: 12px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #000;
+        }
+        
         /* PRINT STYLES - FIXED */
         @media print {
             @page {
@@ -827,6 +837,7 @@
                     <!-- Office Copy (Upper Part) -->
                     <div class="challan-single" id="officeCopy">
                         <div class="copy-label">OFFICE COPY</div>
+                        <div class="challan-number-display" id="challanNumber1">[Challan Number]</div>
                         
                         <div class="company-header">
                             <div class="company-name">HONGYU HEAVY EQUIPMENT LTD</div>
@@ -908,6 +919,7 @@
                     <!-- Customer Copy (Lower Part) -->
                     <div class="challan-single" id="customerCopy">
                         <div class="copy-label">CUSTOMER COPY</div>
+                        <div class="challan-number-display" id="challanNumber2">[Challan Number]</div>
                         
                         <div class="company-header">
                             <div class="company-name">HONGYU HEAVY EQUIPMENT LTD</div>
@@ -1022,8 +1034,50 @@
     // Google Apps Script Web App URL
     const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxsKkNi9MdWGjkNeKF1Hi2IK7mSBIzGYANLF4LGWrtZsrUW07MYOxSEB-cHzzSPo-Vp/exec';
     
-    // Challan counter
-    let challanCounter = localStorage.getItem('challanCounter') ? parseInt(localStorage.getItem('challanCounter')) : 1;
+    // Challan counter - প্রতিদিন নতুন করে শুরু হবে
+    function getChallanCounter() {
+        const today = new Date().toDateString();
+        const lastDate = localStorage.getItem('lastChallanDate');
+        let dailyCounter = parseInt(localStorage.getItem('dailyChallanCounter')) || 1;
+        
+        if (lastDate !== today) {
+            // নতুন দিন - counter reset করুন
+            dailyCounter = 1;
+            localStorage.setItem('lastChallanDate', today);
+            localStorage.setItem('dailyChallanCounter', dailyCounter);
+        }
+        
+        return dailyCounter;
+    }
+    
+    function incrementChallanCounter() {
+        const today = new Date().toDateString();
+        const lastDate = localStorage.getItem('lastChallanDate');
+        let dailyCounter = parseInt(localStorage.getItem('dailyChallanCounter')) || 1;
+        
+        if (lastDate !== today) {
+            // নতুন দিন - counter reset করুন
+            dailyCounter = 1;
+            localStorage.setItem('lastChallanDate', today);
+        } else {
+            // একই দিন - counter increase করুন
+            dailyCounter++;
+        }
+        
+        localStorage.setItem('dailyChallanCounter', dailyCounter);
+        return dailyCounter;
+    }
+    
+    // Generate challan number
+    function generateChallanNumber() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const counter = String(getChallanCounter()).padStart(4, '0');
+        
+        return `HONGYU-DC-${year}${month}${day}-${counter}`;
+    }
     
     // Initialize the app
     document.addEventListener('DOMContentLoaded', function() {
@@ -1048,6 +1102,9 @@
     
     // Update the preview section with form data
     function updatePreview() {
+        // Generate new challan number for preview
+        const challanNumber = generateChallanNumber();
+        
         // Get form values
         const customerName = document.getElementById('customerName').value || '[Customer Name]';
         const challanDate = document.getElementById('challanDate').value || '[Date]';
@@ -1071,6 +1128,10 @@
             if (!amt || amt.startsWith('[')) return amt;
             return '৳ ' + parseInt(amt).toLocaleString('en-BD');
         };
+        
+        // Update Challan Numbers
+        document.getElementById('challanNumber1').textContent = challanNumber;
+        document.getElementById('challanNumber2').textContent = challanNumber;
         
         // Update Office Copy (Upper Part)
         document.getElementById('previewCustomerName').textContent = customerName;
@@ -1176,8 +1237,7 @@
                 
                 if (result.success) {
                     // Increment challan counter
-                    challanCounter++;
-                    localStorage.setItem('challanCounter', challanCounter);
+                    incrementChallanCounter();
                     
                     showStatus(`✅ Delivery Challan saved successfully! Challan No: ${challanNumber}`, 'success');
                     
@@ -1187,7 +1247,7 @@
                         document.getElementById('challanDate').value = new Date().toISOString().split('T')[0];
                         document.getElementById('description').value = 'One Carton Seal';
                         document.getElementById('conditionCharge').value = 'YES';
-                        updatePreview();
+                        updatePreview(); // Auto update preview with new challan number
                     }, 1500);
                     
                 } else {
@@ -1197,8 +1257,7 @@
             } catch (error) {
                 console.error("Error reading response:", error);
                 // Still increment counter (assume success)
-                challanCounter++;
-                localStorage.setItem('challanCounter', challanCounter);
+                incrementChallanCounter();
                 showStatus(`⚠️ Challan No: ${challanNumber} sent. Please verify in Google Sheet.`, 'info');
             }
             
@@ -1210,17 +1269,6 @@
         // Add form to body and submit
         document.body.appendChild(form);
         form.submit();
-    }
-    
-    // Generate challan number
-    function generateChallanNumber() {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, '0');
-        const day = String(now.getDate()).padStart(2, '0');
-        const counter = String(challanCounter).padStart(4, '0');
-        
-        return `HONGYU-DC-${year}${month}${day}-${counter}`;
     }
     
     // Validate form
@@ -1261,7 +1309,7 @@
             // Reset condition charge to YES
             document.getElementById('conditionCharge').value = 'YES';
             
-            // Update preview
+            // Update preview - নতুন চালান নম্বর দেখাবে
             updatePreview();
             
             showStatus('Form has been reset.', 'success');
@@ -1311,8 +1359,11 @@
             // Add image to PDF
             pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
             
+            // Get current challan number for filename
+            const currentChallanNumber = document.getElementById('challanNumber1').textContent;
+            
             // Download the PDF
-            pdf.save(`delivery-challan-${generateChallanNumber()}.pdf`);
+            pdf.save(`delivery-challan-${currentChallanNumber}.pdf`);
             
             showStatus('PDF downloaded successfully!', 'success');
         } catch (error) {
@@ -1327,8 +1378,7 @@
     function newChallan() {
         if (confirm('Create a new delivery challan? The current form will be reset.')) {
             // Increment challan counter
-            challanCounter++;
-            localStorage.setItem('challanCounter', challanCounter);
+            incrementChallanCounter();
             
             // Reset form
             resetForm();
@@ -1367,9 +1417,6 @@
         `;
         document.head.appendChild(style);
     }
-        
-        // Initialize Bengali support
-        setupBengaliSupport();
-    </script>
+</script>
 </body>
 </html>
