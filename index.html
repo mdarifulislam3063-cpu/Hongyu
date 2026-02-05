@@ -884,7 +884,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="amount">Amount (৳) *</label>
+                        <label for="amount">Amount (TK) *</label>
                         <input type="number" id="amount" class="form-control" required min="0">
                     </div>
                 </div>
@@ -1003,7 +1003,7 @@
                         <table class="challan-table">
                             <thead>
                                 <tr>
-                                    <th>Amount (৳)</th>
+                                    <th>Amount (TK)</th>
                                     <th>Delivery Address</th>
                                     <th>Courier</th>
                                     <th>Condition + Charge</th>
@@ -1088,7 +1088,7 @@
                         <table class="challan-table">
                             <thead>
                                 <tr>
-                                    <th>Amount (৳)</th>
+                                    <th>Amount (TK)</th>
                                     <th>Delivery Address</th>
                                     <th>Courier</th>
                                     <th>Condition + Charge</th>
@@ -1221,7 +1221,7 @@
         // Format amount with Bangladeshi Taka symbol
         const formatAmount = (amt) => {
             if (!amt || amt.startsWith('[')) return amt;
-            return '৳ ' + parseInt(amt).toLocaleString('en-BD');
+            return 'TK ' + parseInt(amt).toLocaleString('en-BD');
         };
         
         // Update Office Copy (Upper Part)
