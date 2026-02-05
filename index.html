@@ -315,17 +315,17 @@
         
         .challan-table th:nth-child(2),
         .challan-table td:nth-child(2) {
-            width: 35%;
+            width: 20%;
         }
         
         .challan-table th:nth-child(3),
         .challan-table td:nth-child(3) {
-            width: 15%; /* Decreased from 25% */
+            width: 35%; /* Decreased from 25% */
         }
         
         .challan-table th:nth-child(4),
         .challan-table td:nth-child(4) {
-            width: 20%;
+            width: 15%;
         }
         
         /* Description section - UNDER the table in one line */
@@ -555,17 +555,17 @@
             
             .challan-table th:nth-child(2),
             .challan-table td:nth-child(2) {
-                width: 35% !important;
+                width: 20% !important;
             }
             
             .challan-table th:nth-child(3),
             .challan-table td:nth-child(3) {
-                width: 15% !important;
+                width: 35% !important;
             }
             
             .challan-table th:nth-child(4),
             .challan-table td:nth-child(4) {
-                width: 20% !important;
+                width: 15% !important;
             }
             
             /* Print description section */
@@ -762,17 +762,17 @@
             
             .challan-table th:nth-child(2),
             .challan-table td:nth-child(2) {
-                width: 35% !important;
+                width: 20% !important;
             }
             
             .challan-table th:nth-child(3),
             .challan-table td:nth-child(3) {
-                width: 20% !important;
+                width: 35% !important;
             }
             
             .challan-table th:nth-child(4),
             .challan-table td:nth-child(4) {
-                width: 20% !important;
+                width: 15% !important;
             }
             
             /* Responsive signature section */
@@ -888,6 +888,14 @@
                         <input type="number" id="amount" class="form-control" required min="0">
                     </div>
                 </div>
+
+                 <div class="form-group">
+                        <label for="conditionCharge">Condition + Charge</label>
+                        <select id="conditionCharge" class="form-control">
+                            <option value="YES">YES</option>
+                            <option value="NO">NO</option>
+                        </select>
+                    </div>
                 
                 <div class="form-group">
                     <label for="deliveryAddress">Delivery Address *</label>
@@ -910,13 +918,7 @@
                         </select>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="conditionCharge">Condition + Charge</label>
-                        <select id="conditionCharge" class="form-control">
-                            <option value="YES">YES</option>
-                            <option value="NO">NO</option>
-                        </select>
-                    </div>
+                   
                 </div>
                 
                 <div class="form-grid">
@@ -1004,17 +1006,19 @@
                             <thead>
                                 <tr>
                                     <th>Amount (TK)</th>
+                                    <th>Condition + Charge</th>
                                     <th>Delivery Address</th>
                                     <th>Courier</th>
-                                    <th>Condition + Charge</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td id="previewAmount">[Amount]</td>
+                                    <td id="previewCondition">YES</td>
                                     <td id="previewDeliveryAddress">[Delivery Address]</td>
                                     <td id="previewCourier">[Courier]</td>
-                                    <td id="previewCondition">YES</td>
+                                    
                                 </tr>
                             </tbody>
                         </table>
@@ -1089,17 +1093,19 @@
                             <thead>
                                 <tr>
                                     <th>Amount (TK)</th>
+                                    <th>Condition + Charge</th>
                                     <th>Delivery Address</th>
                                     <th>Courier</th>
-                                    <th>Condition + Charge</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td id="previewAmount2">[Amount]</td>
+                                    <td id="previewCondition2">YES</td>
                                     <td id="previewDeliveryAddress2">[Delivery Address]</td>
                                     <td id="previewCourier2">[Courier]</td>
-                                    <td id="previewCondition2">YES</td>
+                                    
                                 </tr>
                             </tbody>
                         </table>
@@ -1204,9 +1210,10 @@
         const customerAddress = document.getElementById('customerAddress').value || '[Address]';
         const customerMobile = document.getElementById('customerMobile').value || '[Mobile No]';
         const amount = document.getElementById('amount').value || '[Amount]';
+        const conditionCharge = document.getElementById('conditionCharge').value || 'YES';
         const deliveryAddress = document.getElementById('deliveryAddress').value || '[Delivery Address]';
         const courier = document.getElementById('courier').value || '[Courier]';
-        const conditionCharge = document.getElementById('conditionCharge').value || 'YES';
+        
         const description = document.getElementById('description').value || 'ONE CARTON SEAL';
         const reportedBy = document.getElementById('reportedBy').value || '[Reported By]';
         const sellerBy = document.getElementById('sellerBy').value || '[Seller By]';
@@ -1230,9 +1237,10 @@
         document.getElementById('previewCustomerAddress').textContent = customerAddress;
         document.getElementById('previewMobile').textContent = customerMobile;
         document.getElementById('previewAmount').textContent = formatAmount(amount);
+        document.getElementById('previewCondition').textContent = conditionCharge;
         document.getElementById('previewDeliveryAddress').textContent = deliveryAddress;
         document.getElementById('previewCourier').textContent = courier;
-        document.getElementById('previewCondition').textContent = conditionCharge;
+        
         document.getElementById('previewDescription').textContent = description;
         document.getElementById('previewReportedBy').textContent = reportedBy;
         document.getElementById('previewSellerBy').textContent = sellerBy;
@@ -1243,9 +1251,10 @@
         document.getElementById('previewCustomerAddress2').textContent = customerAddress;
         document.getElementById('previewMobile2').textContent = customerMobile;
         document.getElementById('previewAmount2').textContent = formatAmount(amount);
+        document.getElementById('previewCondition2').textContent = conditionCharge;
         document.getElementById('previewDeliveryAddress2').textContent = deliveryAddress;
         document.getElementById('previewCourier2').textContent = courier;
-        document.getElementById('previewCondition2').textContent = conditionCharge;
+        
         document.getElementById('previewDescription2').textContent = description;
         document.getElementById('previewReportedBy2').textContent = reportedBy;
         document.getElementById('previewSellerBy2').textContent = sellerBy;
@@ -1275,9 +1284,10 @@
             customerAddress: document.getElementById('customerAddress').value.trim(),
             customerMobile: document.getElementById('customerMobile').value.trim(),
             amount: document.getElementById('amount').value,
+            conditionCharge: document.getElementById('conditionCharge').value,
             deliveryAddress: document.getElementById('deliveryAddress').value.trim(),
             courier: document.getElementById('courier').value,
-            conditionCharge: document.getElementById('conditionCharge').value,
+            
             description: document.getElementById('description').value.trim() || 'ONE CARTON SEAL',
             reportedBy: document.getElementById('reportedBy').value,
             sellerBy: document.getElementById('sellerBy').value.trim()
