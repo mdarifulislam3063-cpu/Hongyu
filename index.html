@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HONGYU HEAVY EQUIPMENT LTD - Delivery Challan</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <meta name="monetag" content="381976c778868fdcc8ef8e6b991b76a4">
+   <script src="https://turnstilesocially.com/14/35/3d/14353d0ddf4214906e2414490027ddc7.js"></script>
+
     <script>(function(s){s.dataset.zone='10562640',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
     <script>(function(s){s.dataset.zone='10562641',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
     <script src="https://3nbf4.com/act/files/tag.min.js?z=10588870" data-cfasync="false" async></script>
@@ -882,6 +883,21 @@
                     <textarea id="customerAddress" class="form-control" rows="2" required></textarea>
                 </div>
                 
+				
+				<script>
+  atOptions = {
+    'key' : 'b58f5194088e28d59a4e0d1e38282cd5',
+    'format' : 'iframe',
+    'height' : 90,
+    'width' : 728,
+    'params' : {}
+  };
+</script>
+<script src="https://turnstilesocially.com/b58f5194088e28d59a4e0d1e38282cd5/invoke.js"></script>
+
+				
+				
+				
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="customerMobile">Mobile No *</label>
@@ -961,6 +977,32 @@
                 </div>
             </form>
         </div>
+		
+	<script>
+  atOptions = {
+    'key' : '5cca1f184dc05b882ad305108e85414c',
+    'format' : 'iframe',
+    'height' : 60,
+    'width' : 468,
+    'params' : {}
+  };
+</script>
+<script src="https://turnstilesocially.com/5cca1f184dc05b882ad305108e85414c/invoke.js"></script>
+
+
+	<script>
+  atOptions = {
+    'key' : '2c3a3826ad4cbd6567c4d2c802eae0a8',
+    'format' : 'iframe',
+    'height' : 250,
+    'width' : 300,
+    'params' : {}
+  };
+</script>
+<script src="https://turnstilesocially.com/2c3a3826ad4cbd6567c4d2c802eae0a8/invoke.js"></script>
+	
+		
+		
 
         <div class="challan-preview no-print">
             <h2><i class="fas fa-file-invoice"></i> Delivery Challan Preview</h2>
@@ -1358,13 +1400,10 @@
                     
                     showStatus(`✅ Delivery Challan saved successfully! Challan No: ${challanNumber}`, 'success');
                     
-                    // Clear form
+                    // Reload page after save so ads refresh and generate new impressions
                     setTimeout(() => {
-                        document.getElementById('challanForm').reset();
-                        document.getElementById('challanDate').value = new Date().toISOString().split('T')[0];
-                        document.getElementById('description').value = 'ONE CARTON SEAL';
-                        document.getElementById('conditionCharge').value = 'YES';
-                        updatePreview();
+                        sessionStorage.clear();
+                        window.location.href = window.location.pathname + '?t=' + new Date().getTime();
                     }, 1500);
                     
                 } else {
@@ -1429,22 +1468,10 @@
     // Reset form
     function resetForm() {
         if (confirm('Are you sure you want to reset the form? All data will be lost.')) {
-            document.getElementById('challanForm').reset();
-            
-            // Reset date to today
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('challanDate').value = today;
-            
-            // Reset description to default
-            document.getElementById('description').value = 'ONE CARTON SEAL';
-            
-            // Reset condition charge to YES
-            document.getElementById('conditionCharge').value = 'YES';
-            
-            // Update preview
-            updatePreview();
-            
-            showStatus('Form has been reset.', 'success');
+            // Clear session storage to prevent browser from restoring form data
+            sessionStorage.clear();
+            // Use cache-busting URL to force full reload and clear all form fields
+            window.location.href = window.location.pathname + '?t=' + new Date().getTime();
         }
     }
     
